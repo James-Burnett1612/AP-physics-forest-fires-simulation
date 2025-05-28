@@ -29,7 +29,7 @@ public class Forest {
     /*
      * gets the trees in the forest currently burning
      */
-    public int[][] getBurningTrees(){
+    public ArrayList<int[]> getBurningTrees(){
 
         ArrayList<int[]> burnCoords = new ArrayList<int[]>();
 
@@ -41,25 +41,27 @@ public class Forest {
             }
         }
         // I don't trust this
-        return burnCoords.toArray(new int[0][0]); 
+        return burnCoords; 
     }
-    
+
     /**
      * BUUUUUUUUUUURN
      */
-    public void BURN(int[][] burningTrees){
+    public void BURN(ArrayList<int[]> burningTrees){
         ArrayList<int[]> toBurn = new ArrayList<int[]>();
 
-        for(int i = 0; i < burningTrees.length; i++){
-            for (int j = 0; j < burningTrees[0].length; j++) {
-                int[][] surrounding = getSurroundings(i, j);
-                for(int k = 0; k < surrounding.length; k++){
-                    for (int l = 0; l < surrounding[0].length; l++) {
-                        toBurn.add(new int[] {k, l});
-                    }
+        for(int i = 0; i < burningTrees.size(); i++){
+            var burnTile = burningTrees.get(i);
+            var surroundings = getSurroundings(burnTile[0], burnTile[1]);
+            
+            for(int j = 0; j < surroundings.length; j++){
+                if(!(surroundings[j][0] < 0 || surroundings[j][1] < 0 || surroundings[j][0] > forest.length || surroundings[j][1] > forest[0].length)){
+                    toBurn.add(surroundings[j]);
                 }
             }
+
         }
+
         for(int i = 0; i < toBurn.size(); i++){
  
             burnTree(forest[toBurn.get(i)[0]][toBurn.get(i)[1]]);
@@ -71,7 +73,9 @@ public class Forest {
     }
 
     public void startFire(){
-        (forest[(int)Math.round(forest.length * Math.random())][(int)Math.round(forest[0].length * Math.random())]).treeState = Tree.TreeState.BURNING;
+        forest[1][0].treeState = Tree.TreeState.BURNING;
+        forest[3][2].treeState = Tree.TreeState.BURNING;
+
     }
 
     public void simulateFire(){
