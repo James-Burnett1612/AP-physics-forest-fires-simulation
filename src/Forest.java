@@ -10,10 +10,27 @@ public class Forest {
             }
         }
     }
-    
-    // public Tree[][] getSurroundings(int row, int col){
 
-    // }
+    /**
+     * gets the surrounding trees
+     * @param r row
+     * @param c column
+     * @return array for surrounding trees
+     */
+    public int[][] getSurroundings(int r, int c) {
+            return new int[][]{{r + 1, c}, {r - 1, c},
+                                {r + 1, c + 1}, {r - 1, c + 1}, {r, c + 1},
+                                {r + 1, c - 1}, {r - 1, c - 1}, {r, c - 1}};
+    }
+
+    /**
+     * BUUUUURRRRRRNNNNNNNN
+     */
+    public void BURN(Tree tree) {
+        if(tree.treeState == Tree.TreeState.ALIVE && tree.burnPercent > Math.random()){
+            tree.treeState = Tree.TreeState.BURNING;
+        }
+    }
 
     public String toString() {
         String str = "";

@@ -8,8 +8,8 @@ public class Tree {
     }
 
     public TreeState treeState = TreeState.ALIVE;
-    private double burnPercent;
-    private int burnTime;
+    public double burnPercent;
+    public int burnTime;
 
     /**
      * constructor for tree
@@ -21,22 +21,10 @@ public class Tree {
         this.burnPercent = burnPercent;
         this.burnTime = burnTime;
 
-        if(Math.random() < existPercent){
+        if(Math.random() > existPercent){
             this.treeState = TreeState.DNE;
         }
-
     }
-
-    // /**
-    //  * buuuurn baby burn!! DISCO INFERNOOOOOOO
-    //  */
-    // public void burnTree(){
-    //     if(Math.random() < burnPercent && treeState != TreeState.DNE){
-    //         treeState = TreeState.BURNING;
-    //         for(int i = 0; i < burnTime; i++);
-    //         treeState = TreeState.DEAD;
-    //     }
-    // }
 
     /**
      * Returns the value of the the tree as a Char
