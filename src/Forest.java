@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 
+import Tree.TreeState;
+
 
 public class Forest {
     private Tree[][] forest;
@@ -52,10 +54,11 @@ public class Forest {
 
         for(int i = 0; i < burningTrees.size(); i++){
             var burnTile = burningTrees.get(i);
-            var surroundings = getSurroundings(burnTile[0], burnTile[1]);
+            int[][] surroundings = getSurroundings(burnTile[0], burnTile[1]);
             
             for(int j = 0; j < surroundings.length; j++){
-                if(!(surroundings[j][0] < 0 || surroundings[j][1] < 0 || surroundings[j][0] > forest.length || surroundings[j][1] > forest[0].length)){
+                if(!(surroundings[j][0] < 0 || surroundings[j][1] < 0 || surroundings[j][0] > forest.length || surroundings[j][1] > forest[0].length)
+                 && forest[surroundings[j][0]][surroundings[j][1]].treeState != Tree.TreeState.DNE){
                     toBurn.add(surroundings[j]);
                 }
             }
@@ -63,18 +66,21 @@ public class Forest {
         }
 
         for(int i = 0; i < toBurn.size(); i++){
- 
+            try{
             burnTree(forest[toBurn.get(i)[0]][toBurn.get(i)[1]]);
+            
             forest[toBurn.get(i)[0]][toBurn.get(i)[1]].burnCounter += 1;
             if(forest[toBurn.get(i)[0]][toBurn.get(i)[1]].burnCounter >= forest[toBurn.get(i)[0]][toBurn.get(i)[1]].burnTime){
                 forest[toBurn.get(i)[0]][toBurn.get(i)[1]].treeState = Tree.TreeState.DEAD;
             }
+            }catch(Exception e){
+
+            }   
         }
     }
 
     public void startFire(){
-        forest[1][0].treeState = Tree.TreeState.BURNING;
-        forest[3][2].treeState = Tree.TreeState.BURNING;
+        forest[3][3].treeState = Tree.TreeState.BURNING;
 
     }
 
@@ -86,11 +92,9 @@ public class Forest {
      * burns individual tree
      */
     public void burnTree(Tree tree) {
-        try{
             if(tree.treeState == Tree.TreeState.ALIVE && tree.burnPercent > Math.random()){
                 tree.treeState = Tree.TreeState.BURNING;
             }
-        }catch(Exception e){}
     }
 
     public String toString() {
