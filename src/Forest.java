@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 
+
 public class Forest {
     private Tree[][] forest;
     //we need some way to randomly burn a tree
@@ -61,11 +62,16 @@ public class Forest {
         for(int i = 0; i < toBurn.size(); i++){
  
             burnTree(forest[toBurn.get(i)[0]][toBurn.get(i)[1]]);
+            forest[toBurn.get(i)[0]][toBurn.get(i)[1]].burnCounter += 1;
+            if(forest[toBurn.get(i)[0]][toBurn.get(i)[1]].burnCounter >= forest[toBurn.get(i)[0]][toBurn.get(i)[1]].burnTime){
+                forest[toBurn.get(i)[0]][toBurn.get(i)[1]].treeState = Tree.TreeState.DEAD;
+            }
         }
     }
 
     public void simulateFlame(){
-        BURN(getBurningTrees());
+        // BURN(getBurningTrees());
+        burnTree(forest[2][1]);
     }
 
     /**

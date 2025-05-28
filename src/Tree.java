@@ -10,6 +10,7 @@ public class Tree {
     public TreeState treeState = TreeState.ALIVE;
     public double burnPercent;
     public int burnTime;
+    public int burnCounter = 0;
 
     /**
      * constructor for tree
