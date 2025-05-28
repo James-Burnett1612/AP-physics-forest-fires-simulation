@@ -41,8 +41,9 @@ public class Forest {
             }
         }
         // I don't trust this
-        return (int[][]) burnCoords.toArray(); 
+        return burnCoords.toArray(new int[0][0]); 
     }
+    
     /**
      * BUUUUUUUUUUURN
      */
@@ -52,8 +53,8 @@ public class Forest {
         for(int i = 0; i < burningTrees.length; i++){
             for (int j = 0; j < burningTrees[0].length; j++) {
                 int[][] surrounding = getSurroundings(i, j);
-                for(int k = 0; k < surrounding.length; i++){
-                    for (int l = 0; l < surrounding[0].length; j++) {
+                for(int k = 0; k < surrounding.length; k++){
+                    for (int l = 0; l < surrounding[0].length; l++) {
                         toBurn.add(new int[] {k, l});
                     }
                 }
@@ -69,9 +70,12 @@ public class Forest {
         }
     }
 
-    public void simulateFlame(){
-        // BURN(getBurningTrees());
-        burnTree(forest[2][1]);
+    public void startFire(){
+        (forest[(int)Math.round(forest.length * Math.random())][(int)Math.round(forest[0].length * Math.random())]).treeState = Tree.TreeState.BURNING;
+    }
+
+    public void simulateFire(){
+        BURN(getBurningTrees());
     }
 
     /**
