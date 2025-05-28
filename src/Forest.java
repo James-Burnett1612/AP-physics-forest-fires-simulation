@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class Forest {
     private Tree[][] forest;
-
+    //we need some way to randomly burn a tree
     public Forest(int rows, int cols, double burnPercent, int burnTime, double existPercent) {
         forest = new Tree[rows][cols];
 
@@ -39,6 +39,7 @@ public class Forest {
                 } 
             }
         }
+        // I don't trust this
         return (int[][]) burnCoords.toArray(); 
     }
     /**
@@ -61,7 +62,10 @@ public class Forest {
  
             burnTree(forest[toBurn.get(i)[0]][toBurn.get(i)[1]]);
         }
+    }
 
+    public void simulateFlame(){
+        BURN(getBurningTrees());
     }
 
     /**
