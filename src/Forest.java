@@ -177,6 +177,8 @@ public class Forest {
 
         System.out.println("final trees: " + finalTrees);
 
+        System.out.printf("%.2f percent remains\n", ((double)finalTrees)/initialTrees * 100);
+
     }
 
     /**
