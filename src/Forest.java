@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 
-import Tree.TreeState;
 
 
 public class Forest {
@@ -57,25 +56,28 @@ public class Forest {
             int[][] surroundings = getSurroundings(burnTile[0], burnTile[1]);
             
             for(int j = 0; j < surroundings.length; j++){
-                if(!(surroundings[j][0] < 0 || surroundings[j][1] < 0 || surroundings[j][0] > forest.length || surroundings[j][1] > forest[0].length)
-                 && forest[surroundings[j][0]][surroundings[j][1]].treeState != Tree.TreeState.DNE){
-                    toBurn.add(surroundings[j]);
+                if(!(surroundings[j][0] < 0 || surroundings[j][1] < 0 || surroundings[j][0] > forest.length || surroundings[j][1] > forest[0].length)){
+                    
+                        toBurn.add(surroundings[j]);
                 }
             }
-
         }
 
         for(int i = 0; i < toBurn.size(); i++){
             try{
             burnTree(forest[toBurn.get(i)[0]][toBurn.get(i)[1]]);
-            
-            forest[toBurn.get(i)[0]][toBurn.get(i)[1]].burnCounter += 1;
-            if(forest[toBurn.get(i)[0]][toBurn.get(i)[1]].burnCounter >= forest[toBurn.get(i)[0]][toBurn.get(i)[1]].burnTime){
-                forest[toBurn.get(i)[0]][toBurn.get(i)[1]].treeState = Tree.TreeState.DEAD;
-            }
+
             }catch(Exception e){
 
             }   
+        }
+        for(int i = 0; i < burningTrees.size(); i++)  {       
+            forest[burningTrees.get(i)[0]][burningTrees.get(i)[1]].burnCounter += 1;
+  
+
+            if(forest[burningTrees.get(i)[0]][burningTrees.get(i)[1]].burnCounter >= forest[burningTrees.get(i)[0]][burningTrees.get(i)[1]].burnTime){
+                forest[burningTrees.get(i)[0]][burningTrees.get(i)[1]].treeState = Tree.TreeState.DEAD;
+            }
         }
     }
 

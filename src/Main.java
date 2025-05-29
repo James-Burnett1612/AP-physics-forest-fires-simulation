@@ -2,7 +2,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Main {
     public static void main(String[] args) {
-        Forest f = new Forest(25, 25, 0.5, 20, 0.5);
+        Forest f = new Forest(5, 5, 0.5, 5, 0.5);
         f.startFire();
 
         while(true){
