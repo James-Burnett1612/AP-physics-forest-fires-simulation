@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 
 
+
 public class Forest {
 
     private Tree[][] forest;
@@ -33,6 +34,7 @@ public class Forest {
                             {r + 1, c - 1}, {r - 1, c - 1}, {r, c - 1}};
     }
 
+
         /**
      * gets the surrounding trees
      * @param r row
@@ -42,9 +44,21 @@ public class Forest {
     public int[][] getSurroundingsWind(int r, int c) {
         return new int[][]{{r, c}, {r, c + 1}, {r, c + 2}, {r, c + 3}, {r, c + 3}, {r + 1, c},
          {r + 1, c + 1}, {r + 1, c + 2}, {r + 1, c + 3}, {r + 1, c + 3},
-         {r - 1, c}, {r - 1, c + 1}, {r - 1, c + 2}, {r - 1, c + 3}, {r - 1, c + 3} };
+         {r - 1, c}, {r - 1, c + 1}, {r - 1, c + 2}, {r - 1, c + 3}, {r - 1, c + 3},  {r, c - 1} };
     }
     
+           /**
+     * gets the surrounding trees
+     * @param r row
+     * @param c column
+     * @return array for trees in the wind
+     */
+    public int[][] getSurroundingsNight(int r, int c) {
+        return new int[][]{{r + 1, c + 2}, {r + 1, c - 2}, {r - 1, c + 2}, {r - 1, c - 2}, 
+        {r + 2, c + 1}, {r + 2, c - 1}, {r - 2, c + 1}, {r - 2, c - 1}
+        }; 
+    }
+
     /*
      * gets the trees in the forest currently burning
      */
@@ -71,7 +85,7 @@ public class Forest {
 
         for(int i = 0; i < burningTrees.size(); i++){
             var burnTile = burningTrees.get(i);
-            int[][] surroundings = getSurroundings(burnTile[0], burnTile[1]);
+            int[][] surroundings = getSurroundingsWind(burnTile[0], burnTile[1]);
             
             for(int j = 0; j < surroundings.length; j++){
                 if(!(surroundings[j][0] < 0 || surroundings[j][1] < 0 || surroundings[j][0] > forest.length || surroundings[j][1] > forest[0].length)){
@@ -115,6 +129,32 @@ public class Forest {
         for(int i = 0; i < forest.length; i++){
             forest[i][0].treeState = Tree.TreeState.BURNING;
         }
+    }
+
+    public void pulseOfAMeteor(int radius){
+        try{
+            int[] center = {Math.round((float)(forest.length * Math.random())), Math.round((float)(Math.random() * forest[0].length))};
+
+            for(int i = 0; i < forest.length; i++) {
+                for(int j = 0; j < forest[0].length; j++) {
+                        if((Math.abs(i - center[0]) + Math.abs(j - center[1])) == radius){
+                            try{
+                                forest[i][j].treeState = Tree.TreeState.BURNING;
+                            }catch(Exception e){
+
+                            } 
+                        }
+                        if((Math.abs(i - center[0]) + Math.abs(j - center[1])) < radius){
+                            try{
+                                forest[i][j].treeState = Tree.TreeState.DEAD;
+                            }catch(Exception e){
+
+                            }       
+                        }
+                    }
+                }
+            } catch(Exception e){
+            }
     }
 
     public void simulateFire(){
