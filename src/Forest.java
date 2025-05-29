@@ -20,6 +20,19 @@ public class Forest {
         }
     }
 
+    public Forest(int rows, int cols, double existPercent) {
+        forest = new Tree[rows][cols];
+
+        for(int i = 0; i < forest.length; i++) {
+            for(int j = 0; j < forest[0].length; j++) {
+                forest[i][j] = new Tree(Math.random(), Math.round((float)(Math.random() * 4)), existPercent);
+                if(forest[i][j].treeState == Tree.TreeState.ALIVE){
+                    initialTrees += 1;
+                }
+            }
+        }
+    }
+
     private int time = 0;
 
     /**
