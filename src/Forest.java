@@ -1,19 +1,25 @@
 import java.util.ArrayList;
 
 
-
 public class Forest {
+
     private Tree[][] forest;
-    //we need some way to randomly burn a tree
+    private int initialTrees = 0;
+
     public Forest(int rows, int cols, double burnPercent, int burnTime, double existPercent) {
         forest = new Tree[rows][cols];
 
         for(int i = 0; i < forest.length; i++) {
             for(int j = 0; j < forest[0].length; j++) {
                 forest[i][j] = new Tree(burnPercent, burnTime, existPercent);
+                if(forest[i][j].treeState == Tree.TreeState.ALIVE){
+                    initialTrees += 1;
+                }
             }
         }
     }
+
+    private int time = 0;
 
     /**
      * gets the surrounding trees
@@ -81,6 +87,10 @@ public class Forest {
         }
     }
 
+    public  boolean doneBurning(){
+        return getBurningTrees().size() == 0;
+    }
+
     public void startFire(){
         forest[3][3].treeState = Tree.TreeState.BURNING;
 
@@ -88,6 +98,24 @@ public class Forest {
 
     public void simulateFire(){
         BURN(getBurningTrees());
+        time += 1;
+    }
+
+    public void information(){
+        System.out.println("time: " + time);
+        System.out.println("initial trees: " + initialTrees);
+        int finalTrees = 0;
+
+        for(int i = 0; i < forest.length; i++) {
+            for(int j = 0; j < forest[0].length; j++) {
+                if(forest[i][j].treeState == Tree.TreeState.ALIVE){
+                    finalTrees += 1;
+                }
+            }
+        }
+
+        System.out.println("final trees: " + finalTrees);
+
     }
 
     /**

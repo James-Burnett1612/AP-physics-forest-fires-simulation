@@ -2,10 +2,10 @@ import java.util.concurrent.TimeUnit;
 
 public class Main {
     public static void main(String[] args) {
-        Forest f = new Forest(5, 5, 0.5, 5, 0.5);
+        Forest f = new Forest(25, 25, 0.7, 1, 0.6);
         f.startFire();
 
-        while(true){
+        while(!f.doneBurning()){
             System.out.println(f.toString());
             f.simulateFire();
             try {
@@ -18,6 +18,7 @@ public class Main {
     
         }
 
+        f.information();
 
     }
 }
