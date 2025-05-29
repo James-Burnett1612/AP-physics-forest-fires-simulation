@@ -6,6 +6,7 @@ public class Forest {
 
     private Tree[][] forest;
     private int initialTrees = 0;
+    private ArrayList<Double> burnPercentLog = new ArrayList<Double>();
 
     public Forest(int rows, int cols, double burnPercent, int burnTime, double existPercent) {
         forest = new Tree[rows][cols];
@@ -126,6 +127,12 @@ public class Forest {
         }
     }
 
+    public void percentCurrentlyBurning(){
+        burnPercentLog.add(getBurningTrees().size() / (double)initialTrees * 100);
+        System.out.println("currently burning percent: " + getBurningTrees().size() / (double)initialTrees * 100);
+        
+    }
+
     public  boolean doneBurning(){
         return getBurningTrees().size() == 0;
     }
@@ -189,9 +196,9 @@ public class Forest {
         }
 
         System.out.println("final trees: " + finalTrees);
-
+        System.out.println("burn log: " + burnPercentLog.toString());
         System.out.printf("%.2f percent remains\nDimensionality = %.2f", ((double)finalTrees)/initialTrees * 100, getDimensionalityStandard(initialTrees));
-
+        
     }
 
     /**
