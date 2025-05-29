@@ -99,6 +99,12 @@ public class Forest {
         }
     }
 
+    public void lineFire(){
+        for(int i = 0; i < forest.length; i++){
+            forest[i][0].treeState = Tree.TreeState.BURNING;
+        }
+    }
+
     public void simulateFire(){
         BURN(getBurningTrees());
         time += 1;
