@@ -92,8 +92,11 @@ public class Forest {
     }
 
     public void startFire(){
-        forest[3][3].treeState = Tree.TreeState.BURNING;
-
+        try{
+        forest[Math.round((float)(forest.length * Math.random()))][Math.round((float)(Math.random() * forest[0].length))].treeState = Tree.TreeState.BURNING;
+        }catch(Exception e){
+            forest[0][0].treeState = Tree.TreeState.BURNING;
+        }
     }
 
     public void simulateFire(){
