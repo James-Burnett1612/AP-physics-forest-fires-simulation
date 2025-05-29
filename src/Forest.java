@@ -182,6 +182,17 @@ public class Forest {
         time += 1;
     }
 
+
+    /**
+     * burns individual tree
+     */
+    public void burnTree(Tree tree) {
+        if(tree.treeState == Tree.TreeState.ALIVE && tree.burnPercent > Math.random()){
+            tree.treeState = Tree.TreeState.BURNING;
+        }
+}
+
+
     public void information(){
         System.out.println("time: " + time);
         System.out.println("initial trees: " + initialTrees);
@@ -196,55 +207,40 @@ public class Forest {
         }
 
         System.out.println("final trees: " + finalTrees);
-        System.out.println("burn log: " + burnPercentLog.toString());
-        System.out.printf("%.2f percent remains\nDimensionality = %.2f", ((double)finalTrees)/initialTrees * 100, getDimensionalityStandard(initialTrees));
-        
+        // System.out.println("burn log: " + burnPercentLog.toString());
+        System.out.println("Dimensionality: " + (1 + ((double)initialTrees) / ((double)(forest.length * forest[0].length))));
+        System.out.println("Percent survive: " + (double)finalTrees / (double)initialTrees);
     }
 
-    /**
-     * burns individual tree
-     */
-    public void burnTree(Tree tree) {
-            if(tree.treeState == Tree.TreeState.ALIVE && tree.burnPercent > Math.random()){
-                tree.treeState = Tree.TreeState.BURNING;
-            }
-    }
 
-    
-    public double getDimensionalityStandard(int treeCount)
-    {
-        int ROW_SHIFT = 0;
-        int COL_SHIFT = 0;
-        boolean isThere = false;
-        double count = 0.0;
-        
-        while( ROW_SHIFT < 25 )
-        {
-            COL_SHIFT = 0;
-            while( COL_SHIFT < 25)      
-            {
-                for( int i = 0 + ROW_SHIFT; i < ROW_SHIFT + 5; i++ )
-                {
-                    for( int j = 0 + COL_SHIFT; j < COL_SHIFT + 5; j++ )
-                    {
-                        if( forest[i][j].treeState == Tree.TreeState.ALIVE )
-                        {
-                            isThere = true;
-                        }
-                    }
-                }
-                COL_SHIFT += 5;
-                if( isThere )
-                {
-                    count++;
-                    isThere = false;
+    public double getSurvivePercent(){
+        int finalTrees = 0;
+
+        for(int i = 0; i < forest.length; i++) {
+            for(int j = 0; j < forest[0].length; j++) {
+                if(forest[i][j].treeState == Tree.TreeState.ALIVE){
+                    finalTrees += 1;
                 }
             }
-            ROW_SHIFT += 5;
         }
-        count = (Math.log(treeCount) - Math.log(count)) / (Math.log(5) - Math.log(1)); 
+        return (double)finalTrees / (double)initialTrees;
+    }
 
-        return( count );
+    public int getSurvivingTrees(){
+        int finalTrees = 0;
+
+        for(int i = 0; i < forest.length; i++) {
+            for(int j = 0; j < forest[0].length; j++) {
+                if(forest[i][j].treeState == Tree.TreeState.ALIVE){
+                    finalTrees += 1;
+                }
+            }
+        }
+        return finalTrees;
+    }
+
+    public double getDimensionality(){
+        return 1 + ((double)initialTrees) / ((double)(forest.length * forest[0].length));
     }
 
     public String toString() {
