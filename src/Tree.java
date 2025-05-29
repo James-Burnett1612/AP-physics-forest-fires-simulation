@@ -36,13 +36,13 @@ public class Tree {
         switch(treeState)
         {
             case ALIVE:
-                return "O";
+                return "🌳";
             case BURNING:
-                return "\\";
+                return "🔥";
             case DEAD:
-                return "X";
+                return "💀";
             default:
-                return " ";
+                return "  ";
         }
     }
 }

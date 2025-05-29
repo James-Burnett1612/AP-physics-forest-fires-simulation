@@ -85,7 +85,7 @@ public class Forest {
 
         for(int i = 0; i < burningTrees.size(); i++){
             var burnTile = burningTrees.get(i);
-            int[][] surroundings = getSurroundingsWind(burnTile[0], burnTile[1]);
+            int[][] surroundings = getSurroundings(burnTile[0], burnTile[1]);
             
             for(int j = 0; j < surroundings.length; j++){
                 if(!(surroundings[j][0] < 0 || surroundings[j][1] < 0 || surroundings[j][0] > forest.length || surroundings[j][1] > forest[0].length)){
@@ -177,7 +177,7 @@ public class Forest {
 
         System.out.println("final trees: " + finalTrees);
 
-        System.out.printf("%.2f percent remains\n", ((double)finalTrees)/initialTrees * 100);
+        System.out.printf("%.2f percent remains\nDimensionality = %.2f", ((double)finalTrees)/initialTrees * 100, getDimensionalityStandard(initialTrees));
 
     }
 
@@ -188,6 +188,43 @@ public class Forest {
             if(tree.treeState == Tree.TreeState.ALIVE && tree.burnPercent > Math.random()){
                 tree.treeState = Tree.TreeState.BURNING;
             }
+    }
+
+    
+    public double getDimensionalityStandard(int treeCount)
+    {
+        int ROW_SHIFT = 0;
+        int COL_SHIFT = 0;
+        boolean isThere = false;
+        double count = 0.0;
+        
+        while( ROW_SHIFT < 25 )
+        {
+            COL_SHIFT = 0;
+            while( COL_SHIFT < 25)      
+            {
+                for( int i = 0 + ROW_SHIFT; i < ROW_SHIFT + 5; i++ )
+                {
+                    for( int j = 0 + COL_SHIFT; j < COL_SHIFT + 5; j++ )
+                    {
+                        if( forest[i][j].treeState == Tree.TreeState.ALIVE )
+                        {
+                            isThere = true;
+                        }
+                    }
+                }
+                COL_SHIFT += 5;
+                if( isThere )
+                {
+                    count++;
+                    isThere = false;
+                }
+            }
+            ROW_SHIFT += 5;
+        }
+        count = (Math.log(treeCount) - Math.log(count)) / (Math.log(5) - Math.log(1)); 
+
+        return( count );
     }
 
     public String toString() {
