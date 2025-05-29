@@ -2,9 +2,9 @@ import java.util.concurrent.TimeUnit;
 
 public class Main {
     public static void main(String[] args) {
-        Forest f = new Forest(50, 50, 0.6, 1, 0.6);
+        Forest f = new Forest(50, 50, 0.7, 1, 0.6);
         System.out.print("\033\143");
-        // f.startFire();
+        //f.startFire();
         // f.lineFire();
         f.pulseOfAMeteor(5);
 

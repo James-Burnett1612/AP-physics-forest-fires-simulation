@@ -137,14 +137,14 @@ public class Forest {
 
             for(int i = 0; i < forest.length; i++) {
                 for(int j = 0; j < forest[0].length; j++) {
-                        if((Math.abs(i - center[0]) + Math.abs(j - center[1])) == radius){
+                        if(Math.round(Math.pow(i - center[0], 2) + Math.pow(j - center[1], 2)) == radius){
                             try{
                                 forest[i][j].treeState = Tree.TreeState.BURNING;
                             }catch(Exception e){
 
                             } 
                         }
-                        if((Math.abs(i - center[0]) + Math.abs(j - center[1])) < radius){
+                        if(Math.round(Math.pow(i - center[0], 2) + Math.pow(j - center[1], 2)) < radius){
                             try{
                                 forest[i][j].treeState = Tree.TreeState.DEAD;
                             }catch(Exception e){
