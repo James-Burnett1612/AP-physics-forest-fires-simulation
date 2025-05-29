@@ -32,6 +32,18 @@ public class Forest {
                             {r + 1, c + 1}, {r - 1, c + 1}, {r, c + 1},
                             {r + 1, c - 1}, {r - 1, c - 1}, {r, c - 1}};
     }
+
+        /**
+     * gets the surrounding trees
+     * @param r row
+     * @param c column
+     * @return array for trees in the wind
+     */
+    public int[][] getSurroundingsWind(int r, int c) {
+        return new int[][]{{r, c}, {r, c + 1}, {r, c + 2}, {r, c + 3}, {r, c + 3}, {r + 1, c},
+         {r + 1, c + 1}, {r + 1, c + 2}, {r + 1, c + 3}, {r + 1, c + 3},
+         {r - 1, c}, {r - 1, c + 1}, {r - 1, c + 2}, {r - 1, c + 3}, {r - 1, c + 3} };
+    }
     
     /*
      * gets the trees in the forest currently burning
