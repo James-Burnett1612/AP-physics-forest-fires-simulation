@@ -1,5 +1,7 @@
 public class Tree {
-    // is the tree alive burning dead or not exist
+    /**
+     * Defines the 4 tree states: tree is alive, burning, dead, or does not exist.
+     */
     public enum TreeState{
         ALIVE,
         BURNING,
@@ -13,7 +15,7 @@ public class Tree {
     public int burnCounter = 0;
 
     /**
-     * constructor for tree
+     * Constructor for tree
      * @param burnPercent what is the chance of the tree burning (decimal)
      * @param burnTime how many loops does it take to stop burning and die
      * @param existPercent does the tree exist
