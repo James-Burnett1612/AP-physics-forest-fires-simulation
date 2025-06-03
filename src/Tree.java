@@ -30,9 +30,9 @@ public class Tree {
     }
 
     /**
-     * Returns the value of the the tree as a Char
+     * Returns the value of the the tree as an emoji
      * 
-     * @return alive -> 'O', burning '\', dead -> 'X' 
+     * @return alive -> '🌳', burning '🔥', dead -> '💀', or "  " for DNE
      */
     public String toString() {
         switch(treeState)
