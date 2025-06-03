@@ -1,13 +1,23 @@
 import java.util.ArrayList;
 
-
-
 public class Forest {
 
     private Tree[][] forest;
     private int initialTrees = 0;
     private ArrayList<Double> burnPercentLog = new ArrayList<Double>();
 
+    private int time = 0;
+
+    /**
+     * Constructs the forest with a given row #, column #, burn chance, burn time,
+     *  and how likely a tree is to exist
+     *
+     * @param rows the amount of rows in the forest
+     * @param cols the amount of columns in the forest
+     * @param burnPercent what percent chance a tree can catch fire
+     * @param burnTime how long a tree burns for
+     * @param existPercent how likely a tree is to exist
+     */
     public Forest(int rows, int cols, double burnPercent, int burnTime, double existPercent) {
         forest = new Tree[rows][cols];
 
@@ -22,22 +32,12 @@ public class Forest {
     }
 
     public Forest(int rows, int cols, double existPercent) {
-        forest = new Tree[rows][cols];
-
-        for(int i = 0; i < forest.length; i++) {
-            for(int j = 0; j < forest[0].length; j++) {
-                forest[i][j] = new Tree(Math.random(), Math.round((float)(Math.random() * 4)), existPercent);
-                if(forest[i][j].treeState == Tree.TreeState.ALIVE){
-                    initialTrees += 1;
-                }
-            }
-        }
+        this(rows, cols, Math.random(), Math.round((float)(Math.random() * 4)), existPercent);
     }
-
-    private int time = 0;
 
     /**
      * gets the surrounding trees
+     *
      * @param r row
      * @param c column
      * @return array for surrounding trees
@@ -49,32 +49,24 @@ public class Forest {
     }
 
 
-        /**
-     * gets the surrounding trees
+    /**
+     * Gets the surrounding trees
+     *
      * @param r row
      * @param c column
      * @return array for trees in the wind
      */
     public int[][] getSurroundingsWind(int r, int c) {
-        return new int[][]{{r, c}, {r, c + 1}, {r, c + 2}, {r, c + 3}, {r, c + 3}, {r + 1, c},
-         {r + 1, c + 1}, {r + 1, c + 2}, {r + 1, c + 3}, {r + 1, c + 3},
-         {r - 1, c}, {r - 1, c + 1}, {r - 1, c + 2}, {r - 1, c + 3}, {r - 1, c + 3},  {r, c - 1} };
-    }
-    
-           /**
-     * gets the surrounding trees
-     * @param r row
-     * @param c column
-     * @return array for trees in the wind
-     */
-    public int[][] getSurroundingsNight(int r, int c) {
-        return new int[][]{{r + 1, c + 2}, {r + 1, c - 2}, {r - 1, c + 2}, {r - 1, c - 2}, 
-        {r + 2, c + 1}, {r + 2, c - 1}, {r - 2, c + 1}, {r - 2, c - 1}
-        }; 
+        return new int[][]{{r, c + 1}, {r, c + 2}, {r, c + 3}, {r, c + 3}, {r + 1, c},
+                            {r + 1, c + 1}, {r + 1, c + 2}, {r + 1, c + 3}, {r + 1, c + 3},
+                            {r - 1, c}, {r - 1, c + 1}, {r - 1, c + 2}, {r - 1, c + 3}, {r - 1, c + 3},
+                            {r, c - 1} };
     }
 
-    /*
-     * gets the trees in the forest currently burning
+    /**
+     * Gets the trees in the forest currently burning
+     *
+     * @return an ArrayList of int[] with coordinates
      */
     public ArrayList<int[]> getBurningTrees(){
 
@@ -127,16 +119,29 @@ public class Forest {
         }
     }
 
+    /**
+     * Returns the percentage of trees burning
+     * 
+     * @return the percentage of trees burning
+     */
     public void percentCurrentlyBurning(){
         burnPercentLog.add(getBurningTrees().size() / (double)initialTrees * 100);
         System.out.println("currently burning percent: " + getBurningTrees().size() / (double)initialTrees * 100);
         
     }
 
-    public  boolean doneBurning(){
+    /**
+     * Returns whether or not the forest is done burning
+     *
+     * @return true if no trees are burning, false otherwise
+     */
+    public boolean doneBurning(){
         return getBurningTrees().size() == 0;
     }
 
+    /**
+     * We didn't start the fire
+     */
     public void startFire(){
         try{
         forest[Math.round((float)(forest.length * Math.random()))][Math.round((float)(Math.random() * forest[0].length))].treeState = Tree.TreeState.BURNING;
@@ -145,12 +150,20 @@ public class Forest {
         }
     }
 
+    /**
+     * Starts the fire before the leftmost column
+     */
     public void lineFire(){
         for(int i = 0; i < forest.length; i++){
             forest[i][0].treeState = Tree.TreeState.BURNING;
         }
     }
 
+    /**
+     * leo / need to get away, it's coming!
+     *
+     * @param radius the radius of the meteor
+     */
     public void pulseOfAMeteor(int radius){
         try{
             int[] center = {Math.round((float)(forest.length * Math.random())), Math.round((float)(Math.random() * forest[0].length))};
@@ -177,11 +190,13 @@ public class Forest {
             }
     }
 
+    /**
+     * Simulates the fire
+     */
     public void simulateFire(){
         BURN(getBurningTrees());
         time += 1;
     }
-
 
     /**
      * burns individual tree
@@ -190,9 +205,11 @@ public class Forest {
         if(tree.treeState == Tree.TreeState.ALIVE && tree.burnPercent > Math.random()){
             tree.treeState = Tree.TreeState.BURNING;
         }
-}
+    }
 
-
+    /**
+     * prints out all of the information after the forest finishes burning
+     */
     public void information(){
         System.out.println("time: " + time);
         System.out.println("initial trees: " + initialTrees);
@@ -212,37 +229,15 @@ public class Forest {
         System.out.println("Percent survive: " + (double)finalTrees / (double)initialTrees);
     }
 
-
-    public double getSurvivePercent(){
-        int finalTrees = 0;
-
-        for(int i = 0; i < forest.length; i++) {
-            for(int j = 0; j < forest[0].length; j++) {
-                if(forest[i][j].treeState == Tree.TreeState.ALIVE){
-                    finalTrees += 1;
-                }
-            }
-        }
-        return (double)finalTrees / (double)initialTrees;
-    }
-
-    public int getSurvivingTrees(){
-        int finalTrees = 0;
-
-        for(int i = 0; i < forest.length; i++) {
-            for(int j = 0; j < forest[0].length; j++) {
-                if(forest[i][j].treeState == Tree.TreeState.ALIVE){
-                    finalTrees += 1;
-                }
-            }
-        }
-        return finalTrees;
-    }
-
-    public double getDimensionality(){
-        return 1 + ((double)initialTrees) / ((double)(forest.length * forest[0].length));
-    }
-
+    /**
+     * Returns a String of the 2D array with each Tree object
+     * 
+     * @return [🌳  🌳  🌳  ]
+     *         [🌳🌳  🌳  🌳]
+     *         .
+     *         .
+     *         .
+     */
     public String toString() {
         String str = "";
 
